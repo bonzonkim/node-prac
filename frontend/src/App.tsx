@@ -14,9 +14,16 @@ function App() {
             console.log(error)
             })
     }, [])
+
   return (
     <div className="App">
-                <p>{msg}</p>
+            <form method={"post"} action={"http://localhost:3099/api/user/hello"}>
+                <input type={"text"} placeholder={"id"}/>
+                <input type={"password"} placeholder={"password"}/>
+                <input type={"text"} placeholder={"name"}/>
+                <button type={"submit"}>submit</button>
+            </form>
+        <p>{msg}</p>
     </div>
   );
 }
