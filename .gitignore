@@ -294,4 +294,5 @@ tags
 .history
 .ionide
 .env
+.idea/
 # End of https://www.toptal.com/developers/gitignore/api/node,vim,intellij,visualstudiocode
