@@ -1,11 +1,16 @@
 import { Request, Response } from "express";
 import { User } from '../entity/User'
 import {AppDataSource} from "../config/db";
+import bcrypt from 'bcrypt';
 
 class UserController {
 
     public static register =  async (req: Request, res: Response) => {
-        const {userid, userpassword, username} = req.body;
+        let {userid, userpassword, username} = req.body;
+
+        //비밀번호 암호화
+        const salt = await bcrypt.genSalt(10)
+        userpassword = await bcrypt.hash(userpassword, salt)
 
         const userRepo = AppDataSource.getRepository(User);
         const user = userRepo.create({userid, userpassword, username});
