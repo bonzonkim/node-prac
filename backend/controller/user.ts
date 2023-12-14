@@ -1,11 +1,25 @@
 import { Request, Response } from "express";
-import {getConnection, getRepository} from "typeorm";
 import { User } from '../entity/User'
 import {AppDataSource} from "../config/db";
-import {log} from "util";
 
 class UserController {
 
+    public static register =  async (req: Request, res: Response) => {
+        const {userid, userpassword, username} = req.body;
+
+        const userRepo = AppDataSource.getRepository(User);
+        const user = userRepo.create({userid, userpassword, username});
+
+        await userRepo
+            .save(user)
+            .then((data) => {
+                console.log(data)
+                res.send('회원가입 성공');
+                //res.json(data)
+            })
+            .catch((err) => console.log(err));
+    }
+}
     //회원가입
     // public static async register(req: Request, res:Response): Promise<void> {
     //     try {
@@ -37,21 +51,5 @@ class UserController {
     //         res.status(500).send("internal server error");
     //     }
     // }
-    public static register =  async (req: Request, res: Response) => {
-        const {userid, userpassword, username} = req.body;
-
-        const userRepo = AppDataSource.getRepository(User);
-        const user = userRepo.create({userid, userpassword, username});
-
-        await userRepo
-            .save(user)
-            .then((data) => {
-                console.log(data)
-                res.send('회원가입 성공');
-                //res.json(data)
-            })
-            .catch((err) => log(err));
-    }
-}
 
 export default UserController;

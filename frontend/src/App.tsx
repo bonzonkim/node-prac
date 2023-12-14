@@ -10,19 +10,8 @@ function App() {
         username: '',
     });
 
-    useEffect(() => {
-    axios.get('http://localhost:3099/welcome')
-    .then((response) => {
-            //console.log(response)
-            setMsg(response.data)
-        })
-    .catch((error) => {
-            console.log(error)
-            })
-    }, [])
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(formData)
         axios.post('http://localhost:3099/api/user/register', formData)
             .then((response) => {
                 console.log(response);
@@ -35,12 +24,17 @@ function App() {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
-        console.log(formData)
         setFormData({
             ...formData,
             [name]: value,
         });
     };
+
+    useEffect(() => {
+        if (msg) {
+            alert(msg);
+        }
+    }, [msg])
 
   return (
     <div className="App">
@@ -68,7 +62,6 @@ function App() {
             />
             <button type='submit'>register</button>
         </form>
-        <p>{msg}</p>
     </div>
   );
 }
