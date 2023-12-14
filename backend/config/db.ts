@@ -48,31 +48,10 @@ export const AppDataSource = new DataSource({
     migrations: [],
     subscribers: [],
 });
-const connectionOptions: ConnectionOptions = {
-    name: DB_NAME,
-    type: "mysql",
-    host: DB_HOST,
-    port: 3306,
-    username: DB_USER,
-    password: DB_PASSWORD,
-    database: DB_DATABASE,
-    synchronize: true,
-    logging: false,
-    entities: [User],
-    migrations: [],
-    subscribers: [],
-};
-createConnection(connectionOptions)
+AppDataSource.initialize()
 .then(() => {
-    console.log("Database connection established successfully");
+    console.log("Database connection established successfully")
 })
 .catch((e) => {
     console.error(e);
 })
-// AppDataSource.initialize()
-// .then(() => {
-//     console.log("Database connection established successfully")
-// })
-// .catch((e) => {
-//     console.error(e);
-// })

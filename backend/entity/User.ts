@@ -43,13 +43,13 @@ export class User {
     @PrimaryGeneratedColumn()
     _no!: number;
 
-    @Column({ type: "string", nullable: false })
+    @Column({ type: "varchar", nullable: false })
     userid!: string;
 
-    @Column({ type: "string", nullable: false })
+    @Column({ type: "varchar", nullable: false })
     userpassword!: string;
 
-    @Column({ type: "string", nullable: false })
+    @Column({ type: "varchar", nullable: false })
     username!: string;
 }
 
