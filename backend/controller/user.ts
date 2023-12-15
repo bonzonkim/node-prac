@@ -20,41 +20,26 @@ class UserController {
             .then((data) => {
                 console.log(data)
                 res.send('회원가입 성공');
-                //res.json(data)
             })
             .catch((err) => console.log(err));
     }
-}
-    //회원가입
-    // public static async register(req: Request, res:Response): Promise<void> {
-    //     try {
-    //         const { userid, userpassword, username } = req.body;
-    //
-    //         // db에 새 유저 생성
-    //         const newUser = await User.create({ userid, userpassword, username })
-    //
-    //        //응답 메세지
-    //         res.status(201).send('User registered successfully')
-    //         console.log(newUser)
-    //     } catch (error) {
-    //         console.log('Error registering user', error)
-    //         res.status(500).send('Internal Server Error')
-    //     }
-    // }
 
-    // public static async register(req: Request, res: Response) {
-    //     try {
-    //         const {userid, userpassword, username } = req.body;
-    //
-    //         const userRepository = getRepository(User);
-    //
-    //         const newUser = userRepository.create({ userid, userpassword, username})
-    //         await userRepository.save(newUser);
-    //         res.send('회원가입 성공');
-    //     } catch (e) {
-    //         console.error(e);
-    //         res.status(500).send("internal server error");
-    //     }
-    // }
+    public static login = async (req: Request, res: Response) => {
+        let {userid, userpassword} = req.body;
+
+        const userRepo = AppDataSource.getRepository(User);
+        const user = await userRepo.findOne( userid );
+
+        if (!user) {
+            res.status(404).send('사용자를 찾을 수 없습니다');
+        }
+        const passwordMatch = await bcrypt.compare(userpassword, <string>user?.userpassword);
+
+        if (!passwordMatch) {
+            return res.status(401).send('비밀번호가 일치하지 않습니다');
+        }
+        res.send('로그인 성공');
+    }
+}
 
 export default UserController;

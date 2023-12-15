@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import './App.css'
 
 
 function App() {
@@ -9,10 +10,25 @@ function App() {
         userpassword: '',
         username: '',
     });
+    const [loginData, setLoginData] = useState({
+        userid: '',
+        userpassword: '',
+    });
 
-    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const registerFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        axios.post('http://localhost:3099/api/user/register', formData)
+        axios.post(`http://localhost:3099/api/user/register`, formData)
+            .then((response) => {
+                console.log(response);
+                setMsg(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+    const loginFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        axios.post(`http://localhost:3099/api/user/login`, loginData)
             .then((response) => {
                 console.log(response);
                 setMsg(response.data);
@@ -29,6 +45,13 @@ function App() {
             [name]: value,
         });
     };
+    const loginInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
+        setLoginData({
+            ...loginData,
+            [name]: value,
+        });
+    }
 
     useEffect(() => {
         if (msg) {
@@ -38,30 +61,51 @@ function App() {
 
   return (
     <div className="App">
-        <form onSubmit={handleFormSubmit}>
-            <input
-                type="text"
-                name="userid"
-                placeholder="id"
-                value={formData.userid}
-                onChange={handleInputChange}
-            />
-            <input
-                type="password"
-                name="userpassword"
-                placeholder="password"
-                value={formData.userpassword}
-                onChange={handleInputChange}
-            />
-            <input
-                type="text"
-                name="username"
-                placeholder="name"
-                value={formData.username}
-                onChange={handleInputChange}
-            />
-            <button type='submit'>register</button>
-        </form>
+        <div className="registerForm">
+            <form onSubmit={registerFormSubmit}>
+                <input
+                    type="text"
+                    name="userid"
+                    placeholder="id"
+                    value={formData.userid}
+                    onChange={handleInputChange}
+                />
+                <input
+                    type="password"
+                    name="userpassword"
+                    placeholder="password"
+                    value={formData.userpassword}
+                    onChange={handleInputChange}
+                />
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="name"
+                    value={formData.username}
+                    onChange={handleInputChange}
+                />
+                <button type='submit'>register</button>
+            </form>
+        </div>
+        <div className="loginForm">
+            <form onSubmit={loginFormSubmit}>
+                <input
+                    type="text"
+                    name="userid"
+                    placeholder="id"
+                    value={loginData.userid}
+                    onChange={loginInputChange}
+                />
+                <input
+                    type="password"
+                    name="userpassword"
+                    placeholder="password"
+                    value={loginData.userpassword}
+                    onChange={loginInputChange}
+                />
+                <button type='submit'>login</button>
+            </form>
+        </div>
     </div>
   );
 }
