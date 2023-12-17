@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction} from 'express';
 import cors from 'cors'
-import userRouter from "../routes/user";
+import userRouter from "./routes/user";
 const app = express();
 const PORT = 3099;
 
@@ -9,7 +9,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use('/api/user',userRouter);
 
-app.get('/welcome', (req: Request, res: Response, next: NextFunction) => {
+app.get('/welcome', (req: Request, res: Response, _: NextFunction) => {
     res.send('welcome to here')
 });
 

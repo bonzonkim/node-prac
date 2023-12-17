@@ -23,18 +23,19 @@
 //     console.log('Database connection established successfully.');
 // });
 import 'reflect-metadata';
-import { DataSource, createConnection, ConnectionOptions } from 'typeorm';
+import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
 import { User } from '../entity/User'
 
 dotenv.config({path: '../.env'})
+
 const {
     DB_DATABASE,
     DB_USER,
     DB_HOST,
     DB_PASSWORD,
-    DB_NAME
 } = process.env;
+
 export const AppDataSource = new DataSource({
     type: "mysql",
     host: DB_HOST,
@@ -48,6 +49,7 @@ export const AppDataSource = new DataSource({
     migrations: [],
     subscribers: [],
 });
+
 AppDataSource.initialize()
 .then(() => {
     console.log("Database connection established successfully")
