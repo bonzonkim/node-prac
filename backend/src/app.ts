@@ -16,3 +16,4 @@ app.get('/welcome', (req: Request, res: Response, next: NextFunction) => {
 app.listen(PORT, () => {
     console.log(`------------------------Server listening on port ${PORT}------------------------`)
 });
+
