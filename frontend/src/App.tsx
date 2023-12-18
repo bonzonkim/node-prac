@@ -20,7 +20,7 @@ function App() {
         axios.post(`http://localhost:3099/api/user/register`, formData)
             .then((response) => {
                 console.log(response);
-                setMsg(response.data);
+                setMsg(response.data.msg);
             })
             .catch((error) => {
                 console.log(error);

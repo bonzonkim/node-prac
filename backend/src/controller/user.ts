@@ -4,15 +4,10 @@ import {AppDataSource} from "../config/db";
 import bcrypt from 'bcrypt';
 import { Repository } from "typeorm";
 
-class UserController {
-  userRepo: Repository<User>;
-
-  constructor() {
-   this.userRepo = AppDataSource.getRepository(User);
-  }
+const userRepo = AppDataSource.getRepository(User);
 
 
-  async register(req: Request, res: Response) {
+   export const register = async(req: Request, res: Response) => {
       try {
           let {userid, userpassword, username} = req.body;
 
@@ -20,22 +15,23 @@ class UserController {
           const salt = await bcrypt.genSalt(10)
           userpassword = await bcrypt.hash(userpassword, salt)
 
-          const user = this.userRepo.create({userid, userpassword, username});
-          const data = await this.userRepo.save(user);
+          const user = userRepo.create({ userid, userpassword, username });
+          const data = await userRepo.save(user);
           console.log(data);
           res.json({msg: '회원가입완료'});
+        //res.send('회원가입 완료');
       } catch (e) {
-          // handle errors
+        console.log(e);
       }
   }
 
 
-    async login (req: Request, res: Response)  {
+export const login = async (req: Request, res: Response) =>  {
       try{
         let {userid, userpassword} = req.body;
         console.log(userid);
 
-        const userRepo = AppDataSource.getRepository(User);
+        //const userRepo = AppDataSource.getRepository(User);
 
         // findOneBy 함수의 첫번째 매개변수는 where절
         const user = await userRepo.findOneBy({userid: userid})
@@ -55,5 +51,4 @@ class UserController {
     }
     } 
     
-}
-export default UserController;
+//export default UserController;
