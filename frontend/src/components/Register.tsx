@@ -27,11 +27,11 @@ export default function Register() {
   }
 
   useEffect(() => {
-    alert(msg)
+    if(msg !== '') {alert(msg)}
   },[msg])
 
   return (
-    <div className="registerForm">
+    <div className="App">
             <form onSubmit={registerFormSubmit}>
                 <input
                     type="text"
